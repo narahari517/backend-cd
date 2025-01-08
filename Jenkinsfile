@@ -8,7 +8,6 @@ pipeline {
         retry(1)
     }
     parameters {
-        booleanParam(name: 'deploy', defaultValue: false, description: 'Select to deploy or not')
         choice(name: 'ENVIRONMENT', choices: ['dev', 'qa', 'uat', 'pre-prod', 'prod'], description: 'Select your environment')
         string(name: 'version', description: 'Enter your application version')
     }
@@ -30,9 +29,6 @@ pipeline {
             }
         }
         stage('Deploy'){
-            when {
-                expression { params.deploy }
-            }
             steps{
                 steps {
                     withAWS(region: 'us-east-1', credentials: 'aws-creds') {
